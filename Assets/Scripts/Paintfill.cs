@@ -19,6 +19,7 @@ public class Paintfill : MonoBehaviour
         // Initialize Random button
         Randomize = GameObject.FindGameObjectWithTag("random");
         rand = Randomize.GetComponent<Button>();
+        rand.GetComponentInChildren<Text>().text = "Randomize Colors";
     }
 
     // Update is called once per frame
@@ -30,9 +31,10 @@ public class Paintfill : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RayCast2D();
+            rand.onClick.AddListener(RandomizeColor);
         }
 
-
+       
 
     }
 
@@ -58,27 +60,51 @@ public class Paintfill : MonoBehaviour
             //hit2D.collider.GetComponent<MeshRenderer>().material.color = currentColor;
 
             ColliderToMesh(pc2);
-
+            //Changes color of image part Mesh to the currentColor selected
             hit2D.collider.GetComponent<MeshRenderer>().material.color = currentColor;
 
         }
 
 
-        rand.onClick.AddListener(RandomizeColor);
+      
 
     }
 
     private void RandomizeColor()
     {
-        // this needs to be changed probably a FindObjectsOfType????
+    
+        Color randomColor = Color.white;
+        GameObject[] imageParts;
+        PolygonCollider2D pc;
 
-        currentColor = Random.ColorHSV();
-        Debug.Log(currentColor);
-        GetComponent<MeshRenderer>().material.color = currentColor;
+        imageParts = GameObject.FindGameObjectsWithTag("image");
+
+        for(int i = 0; i <  imageParts.Length; i++)
+        {
+            if (imageParts[i].GetComponent<Mesh>() == null)
+            {
+                // Gets collider from the ImagePart object [i] from the array
+                pc = imageParts[i].GetComponent<PolygonCollider2D>();
+                // passes to colliderToMesh to create a mesh renderer in order to color it in
+                ColliderToMesh(pc);
+            }
+            
+            
+            randomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+
+            imageParts[i].GetComponent<MeshRenderer>().material.color = randomColor;
+            
+
+            
+
+        }
+
+        
     }
 
     private void ColliderToMesh(PolygonCollider2D pc2)
     {
+        
         //Render thing
         int pointCount = 0;
         pointCount = pc2.GetTotalPointCount();
