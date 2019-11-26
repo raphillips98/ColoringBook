@@ -9,17 +9,22 @@ public class Paintfill : MonoBehaviour
 
     private Color currentColor = Color.white;
     private Vector3 position; // Mouse click position
-    private GameObject Randomize;
+    private GameObject button;
     private Button rand;
+    private Button reset;
+    private GameObject colorSelected;
 
 
 
     void Start()
     {
         // Initialize Random button
-        Randomize = GameObject.FindGameObjectWithTag("random");
-        rand = Randomize.GetComponent<Button>();
-        rand.GetComponentInChildren<Text>().text = "Randomize Colors";
+        button = GameObject.FindGameObjectWithTag("random");
+        rand = button.GetComponent<Button>();
+        button = GameObject.FindGameObjectWithTag("reset");
+        reset = button.GetComponent<Button>();
+
+        colorSelected = GameObject.Find("CurrentColor");
     }
 
     // Update is called once per frame
@@ -32,6 +37,7 @@ public class Paintfill : MonoBehaviour
         {
             RayCast2D();
             rand.onClick.AddListener(RandomizeColor);
+            reset.onClick.AddListener(ResetColor);
         }
 
        
@@ -48,7 +54,10 @@ public class Paintfill : MonoBehaviour
         if (hit2D.collider.tag == "color")
         {
             currentColor = hit2D.collider.GetComponent<SpriteRenderer>().color;
-            Debug.Log(currentColor);
+
+            // changes the current color circle in the menu to the color that is selected
+            colorSelected.GetComponent<SpriteRenderer>().color = currentColor;
+            
 
         }
 
@@ -152,6 +161,43 @@ public class Paintfill : MonoBehaviour
         }
 
         
+    }
+
+    private void ResetColor()
+    {   
+        GameObject[] imageParts;
+        GameObject[] spots;
+        PolygonCollider2D pc;
+
+        imageParts = GameObject.FindGameObjectsWithTag("image");
+        spots = GameObject.FindGameObjectsWithTag("spots");
+
+        //color all parts of turtle as white
+        for (int i = 0; i < imageParts.Length; i++)
+        {
+            if (imageParts[i].GetComponent<Mesh>() == null)
+            {
+                // Gets collider from the ImagePart object [i] from the array
+                pc = imageParts[i].GetComponent<PolygonCollider2D>();
+                // passes to colliderToMesh to create a mesh renderer in order to color it in
+                ColliderToMesh(pc);
+            }
+
+            imageParts[i].GetComponent<MeshRenderer>().material.color = Color.white;
+
+        }
+
+        // fill in the spots as white
+        for (int i = 0; i < spots.Length; i++)
+        {
+            if (spots[i].GetComponent<Mesh>() == null)
+            {
+                pc = spots[i].GetComponent<PolygonCollider2D>();
+                ColliderToMesh(pc);
+            }
+
+            spots[i].GetComponent<MeshRenderer>().material.color = Color.white;
+        }
     }
 
     private void ColliderToMesh(PolygonCollider2D pc2)
