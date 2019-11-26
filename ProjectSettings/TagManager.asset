@@ -7,6 +7,7 @@ TagManager:
   - color
   - image
   - random
+  - spots
   layers:
   - Default
   - TransparentFX

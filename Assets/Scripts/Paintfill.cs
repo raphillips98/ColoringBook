@@ -65,19 +65,59 @@ public class Paintfill : MonoBehaviour
 
         }
 
+        else if (hit2D.collider.tag == "spots")
+        {
+            PolygonCollider2D pc2 = hit2D.collider.GetComponent<PolygonCollider2D>();
 
-      
+            //hit2D.collider.GetComponent<MeshRenderer>().material.color = currentColor;
 
+            // fills the spots with the current color selected
+            FillSpots(currentColor);
+
+
+        }
+
+
+
+
+    }
+
+    // Creates array of all objects with the tag spots and fills them in with the current color
+    private void FillSpots(Color spotColor)
+    {
+        
+        GameObject[] spots;
+        PolygonCollider2D pc;
+
+        spots = GameObject.FindGameObjectsWithTag("spots");
+
+        for(int i = 0; i < spots.Length; i++)
+        {
+            if (spots[i].GetComponent<Mesh>() == null)
+            {
+                pc = spots[i].GetComponent<PolygonCollider2D>();
+
+                // creates a mesh renderer in the gameobject passed in
+                ColliderToMesh(pc);
+            }
+
+            spots[i].GetComponent<MeshRenderer>().material.color = spotColor;
+            
+        }
     }
 
     private void RandomizeColor()
     {
-    
+        // get a one time random color to fill all of the spots as the same color
+        Color spotsRandomColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+
         Color randomColor = Color.white;
         GameObject[] imageParts;
+        GameObject[] spots;
         PolygonCollider2D pc;
 
         imageParts = GameObject.FindGameObjectsWithTag("image");
+        spots = GameObject.FindGameObjectsWithTag("spots");
 
         for(int i = 0; i <  imageParts.Length; i++)
         {
@@ -97,6 +137,18 @@ public class Paintfill : MonoBehaviour
 
             
 
+        }
+
+        // randomize spots array
+        for(int i = 0; i < spots.Length; i++)
+        {
+            if(spots[i].GetComponent<Mesh>() == null)
+            {
+                pc = spots[i].GetComponent<PolygonCollider2D>();
+                ColliderToMesh(pc);
+            }
+
+            spots[i].GetComponent<MeshRenderer>().material.color = spotsRandomColor;
         }
 
         

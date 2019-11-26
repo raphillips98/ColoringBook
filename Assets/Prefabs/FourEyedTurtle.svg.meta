@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 81a1201ce891ad343be132c9e9d5f9f2
+guid: 83ab184261753b247a23d4b5fb8ef76b
 ScriptedImporter:
   fileIDToRecycleName:
     100000: gameObject/
@@ -52,5 +52,5 @@ ScriptedImporter:
         y: 0
         width: 0
         height: 0
-      spriteID: e4a30e968651dad44a9d9ac31071cb1f
+      spriteID: 6813a91d0e509eb4fac3ffedbe4db066
     PhysicsOutlines: []
