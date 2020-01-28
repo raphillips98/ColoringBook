@@ -40,7 +40,12 @@ public class Paintfill : MonoBehaviour
             reset.onClick.AddListener(ResetColor);
         }
 
-       
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }
+
+
 
     }
 
