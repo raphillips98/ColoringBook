@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-//using UnityStandardAssets.CrossPlatformInput;
+using UnityEngine.SceneManagement;
 
 public class Paintfill : MonoBehaviour
 {
@@ -36,7 +36,7 @@ public class Paintfill : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             RayCast2D();
-            rand.onClick.AddListener(RandomizeColor);
+            
             reset.onClick.AddListener(ResetColor);
         }
 
@@ -169,8 +169,9 @@ public class Paintfill : MonoBehaviour
     }
 
     private void ResetColor()
-    {   
-        GameObject[] imageParts;
+    {
+        SceneManager.LoadScene("FourEyedTurtle");
+        /* GameObject[] imageParts;
         GameObject[] spots;
         PolygonCollider2D pc;
 
@@ -202,7 +203,7 @@ public class Paintfill : MonoBehaviour
             }
 
             spots[i].GetComponent<MeshRenderer>().material.color = Color.white;
-        }
+        }*/
     }
 
     private void ColliderToMesh(PolygonCollider2D pc2)
