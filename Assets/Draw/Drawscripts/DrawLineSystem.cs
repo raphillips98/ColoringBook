@@ -26,6 +26,7 @@ public class DrawLineSystem : MonoBehaviour
     private GameObject colorSelected;
     private GameObject button;
     private Button rand;
+    private GameObject brushSlider;
 
     private bool drawWithCollider;
 
@@ -35,13 +36,16 @@ public class DrawLineSystem : MonoBehaviour
         colorSelected = GameObject.Find("CurrentColor");
         button = GameObject.FindGameObjectWithTag("random");
         rand = button.GetComponent<Button>();
+        brushSlider = GameObject.Find("Slider");
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         position.z = -5;
+        StrokeWidth = brushSlider.GetComponent<Slider>().value;
 
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began || Input.GetMouseButtonDown(0))
         {
